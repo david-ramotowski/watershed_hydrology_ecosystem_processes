@@ -1,7 +1,2 @@
-function [outputArg1,outputArg2] = modfunc(inputArg1,inputArg2)
-%MODFUNC Summary of this function goes here
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
-
-end
+function out = modfunc(x,a)
+out = a(1)*exp(a(2)*x);
