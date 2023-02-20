@@ -1,0 +1,8 @@
+"0","x <- wol_SDchla$SD"
+"0","pwr <- function(x)x^0.5"
+"0","dat <- data.frame(x, y = pwr(x))"
+"0",""
+"0","wol_pwr <- ggplot(dat, aes(x = x, y = wol_SDchla$chla)) + "
+"0","  geom_point() + stat_function(fun = pwr) + scale_x_log10() + scale_y_log10() + ggtitle(""Power Law Curve of Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022"") + xlab(""log Secchi Depth (m)"") + ylab(""log Chlorophyll a (ug/L)"")"
+"0",""
+"0","wol_pwr"

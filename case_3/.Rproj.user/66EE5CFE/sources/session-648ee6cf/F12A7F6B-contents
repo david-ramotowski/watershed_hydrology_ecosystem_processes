@@ -1,0 +1,365 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Case 3: Lake Water Quality Data Analytics},
+  pdfauthor={David Ramotowski},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Case 3: Lake Water Quality Data Analytics}
+\author{David Ramotowski}
+\date{2023-02-19}
+
+\begin{document}
+\maketitle
+
+All data was obtained from the Iowa DNR AquIA water quality database and
+the Cooperative Lakes Area Monitoring Project (CLAMP) database:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://programs.iowadnr.gov/aquia/Programs/Lakes}
+\item
+  \url{http://clamp1909.blogspot.com/}
+\end{itemize}
+
+Data for the last 20 years in the Iowa Great Lakes (Big Sprit Lake, West
+Okoboji Lake, East Okoboji Lake) was downloaded from AquIA in csv
+format:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Big Spirit Lake:} ID\#22300014
+\item
+  \textbf{West Okoboji Lake:} ID\#22300009
+\item
+  \textbf{East Okoboji Lake:} ID\#22300008
+\end{itemize}
+
+\hypertarget{section}{%
+\section{\texorpdfstring{\textbf{1.)}}{1.)}}\label{section}}
+
+Classify the trophic state of the lakes based on the last 20 years of
+data and describe whether the data indicates that the lakes are stable
+or show signs of change.
+
+\begin{itemize}
+\tightlist
+\item
+  First, load all required R packages (I mainly use the Tidyverse for
+  dealing with large datasets)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+## v ggplot2 3.4.0      v purrr   1.0.1 
+## v tibble  3.1.8      v dplyr   1.0.10
+## v tidyr   1.2.1      v stringr 1.5.0 
+## v readr   2.1.3      v forcats 0.5.2 
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Then, I loaded the data for each lake into R:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bsl }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"big{-}spirit{-}lake.csv"}\NormalTok{) }\CommentTok{\#Big Spirit Lake}
+\NormalTok{wol }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"west\_okoboji\_lake.csv"}\NormalTok{) }\CommentTok{\#West Okoboji Lake}
+\NormalTok{eol }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"east\_okoboji\_lake.csv"}\NormalTok{) }\CommentTok{\#East Okoboji Lake}
+
+\FunctionTok{head}\NormalTok{(bsl) }\CommentTok{\#inspect data format for one of the files}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   facilityID   siteID            name    county     huc8 type aquifer latitude
+## 1          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 2          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 3          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 4          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 5          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 6          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+##   longitude                sampleDate projectCode       cas_rn
+## 1 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL           PH
+## 2 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL          TDS
+## 3 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL    7782-44-7
+## 4 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL DEPTH-BOTTOM
+## 5 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL DEPTH-SECCHI
+## 6 -95.08332 2005-06-01T09:45:00-05:00 AMBLAKE-SHL   TEMP-WATER
+##                    analyte  fraction relDepth result  unit detect detectLimit
+## 1                       pH     Total             8.5  None   True          NA
+## 2   Total dissolved solids Dissolved           300.0  mg/l   True          NA
+## 3    Dissolved oxygen (DO)     Total            10.4  mg/l   True        0.10
+## 4            Depth, bottom     Total             7.4     m   True          NA
+## 5 Depth, Secchi disk depth     Total             3.1     m   True        0.01
+## 6       Temperature, water     Total            16.0 deg C   True        0.00
+##   quantFlag quantLimit   method colMethod resultType matrix medium qualFlag
+## 1                   NA   4500-H               Actual     SW  Water       NA
+## 2                   NA HYDROLAB           Calculated     SW  Water       NA
+## 3                   NA  Unknown               Actual     SW  Water       NA
+## 4                   NA  Unknown               Actual     SW  Water       NA
+## 5                   NA  Unknown               Actual     SW  Water       NA
+## 6                   NA  Unknown               Actual     SW  Water       NA
+##   remark
+## 1     NA
+## 2     NA
+## 3     NA
+## 4     NA
+## 5     NA
+## 6     NA
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  I edited the sampleDate column in each dataset to separate out the
+  year and date (mm/dd), I then removed all years before 2002 to only
+  show data for the last 20 years:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bsl }\OtherTok{\textless{}{-}} \FunctionTok{extract}\NormalTok{(bsl, }\StringTok{"sampleDate"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Date"}\NormalTok{), }\AttributeTok{regex =} \StringTok{\textquotesingle{}(\^{}[0{-}9]\{4\})}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{D(.\{5\})\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{2001}\NormalTok{)}
+\NormalTok{wol }\OtherTok{\textless{}{-}} \FunctionTok{extract}\NormalTok{(wol, }\StringTok{"sampleDate"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Date"}\NormalTok{), }\AttributeTok{regex =} \StringTok{\textquotesingle{}(\^{}[0{-}9]\{4\})}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{D(.\{5\})\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{2001}\NormalTok{)}
+\NormalTok{eol }\OtherTok{\textless{}{-}} \FunctionTok{extract}\NormalTok{(eol, }\StringTok{"sampleDate"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Date"}\NormalTok{), }\AttributeTok{regex =} \StringTok{\textquotesingle{}(\^{}[0{-}9]\{4\})}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{D(.\{5\})\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{2001}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(bsl) }\CommentTok{\#Inspect the data for Big Spirit Lake}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   facilityID   siteID            name    county     huc8 type aquifer latitude
+## 1          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 2          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 3          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 4          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 5          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 6          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+##   longitude Year  Date projectCode       cas_rn                  analyte
+## 1 -95.08332 2005 06-01 AMBLAKE-SHL           PH                       pH
+## 2 -95.08332 2005 06-01 AMBLAKE-SHL          TDS   Total dissolved solids
+## 3 -95.08332 2005 06-01 AMBLAKE-SHL    7782-44-7    Dissolved oxygen (DO)
+## 4 -95.08332 2005 06-01 AMBLAKE-SHL DEPTH-BOTTOM            Depth, bottom
+## 5 -95.08332 2005 06-01 AMBLAKE-SHL DEPTH-SECCHI Depth, Secchi disk depth
+## 6 -95.08332 2005 06-01 AMBLAKE-SHL   TEMP-WATER       Temperature, water
+##    fraction relDepth result  unit detect detectLimit quantFlag quantLimit
+## 1     Total             8.5  None   True          NA                   NA
+## 2 Dissolved           300.0  mg/l   True          NA                   NA
+## 3     Total            10.4  mg/l   True        0.10                   NA
+## 4     Total             7.4     m   True          NA                   NA
+## 5     Total             3.1     m   True        0.01                   NA
+## 6     Total            16.0 deg C   True        0.00                   NA
+##     method colMethod resultType matrix medium qualFlag remark
+## 1   4500-H               Actual     SW  Water       NA     NA
+## 2 HYDROLAB           Calculated     SW  Water       NA     NA
+## 3  Unknown               Actual     SW  Water       NA     NA
+## 4  Unknown               Actual     SW  Water       NA     NA
+## 5  Unknown               Actual     SW  Water       NA     NA
+## 6  Unknown               Actual     SW  Water       NA     NA
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  I then subset the data for each lake into separate tables for chl-a:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bsl\_chla }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(bsl, }\FunctionTok{grepl}\NormalTok{(}\StringTok{\textquotesingle{}Chlorophyll\textquotesingle{}}\NormalTok{, analyte))}
+\NormalTok{eol\_chla }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(eol, }\FunctionTok{grepl}\NormalTok{(}\StringTok{\textquotesingle{}Chlorophyll\textquotesingle{}}\NormalTok{, analyte))}
+\NormalTok{wol\_chla }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(wol, }\FunctionTok{grepl}\NormalTok{(}\StringTok{\textquotesingle{}Chlorophyll\textquotesingle{}}\NormalTok{, analyte))}
+
+\FunctionTok{head}\NormalTok{(bsl\_chla) }\CommentTok{\#inspect data for Big Spirit Lake}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   facilityID   siteID            name    county     huc8 type aquifer latitude
+## 1          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 2          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 3          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 4          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 5          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+## 6          6 22300014 Big Spirit Lake Dickinson 10230003 Lake      NA 43.48076
+##   longitude Year  Date projectCode     cas_rn                           analyte
+## 1 -95.08332 2005 06-01 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+## 2 -95.08332 2005 08-02 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+## 3 -95.08332 2005 09-27 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+## 4 -95.08332 2006 07-18 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+## 5 -95.08332 2006 04-25 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+## 6 -95.08332 2006 06-06 AMBLAKE-SHL CLR-A-FREE Chlorophyll a, free of pheophytin
+##   fraction relDepth result unit detect detectLimit quantFlag quantLimit method
+## 1  NonFilt               5 ug/l   True           1                   NA    445
+## 2  NonFilt              66 ug/l   True           1                   NA    445
+## 3  NonFilt              33 ug/l   True           1                   NA    445
+## 4  NonFilt              11 ug/l   True           1                   NA    445
+## 5  NonFilt              17 ug/l   True           1                   NA    445
+## 6  NonFilt               5 ug/l   True           1                   NA    445
+##   colMethod resultType matrix medium qualFlag remark
+## 1   UHLLAKE     Actual     SW  Water       NA     NA
+## 2   UHLLAKE     Actual     SW  Water       NA     NA
+## 3   UHLLAKE     Actual     SW  Water       NA     NA
+## 4   UHLLAKE     Actual     SW  Water       NA     NA
+## 5   UHLLAKE     Actual     SW  Water       NA     NA
+## 6   UHLLAKE     Actual     SW  Water       NA     NA
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Calculated average chl-a concentrations in each lake for the past 20
+  years:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(bsl\_chla}\SpecialCharTok{$}\NormalTok{result) }\CommentTok{\#Big Spirit Lake}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 18.41377
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(eol\_chla}\SpecialCharTok{$}\NormalTok{result) }\CommentTok{\#East Okoboji Lake}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 22.88906
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(wol\_chla}\SpecialCharTok{$}\NormalTok{result) }\CommentTok{\#West Okoboji Lake}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.657118
+\end{verbatim}
+
+Based on these results, I would classify the trophic state of each lake
+as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  **Big Spirit Lake:
+\end{itemize}
+
+\end{document}

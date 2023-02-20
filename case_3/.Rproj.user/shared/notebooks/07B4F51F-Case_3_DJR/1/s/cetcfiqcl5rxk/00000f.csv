@@ -1,0 +1,7 @@
+"0","bsl_SDchla <- inner_join(bsl_SD, bsl_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))"
+"0",""
+"0","eol_SDchla <- inner_join(eol_SD, eol_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))"
+"0",""
+"0","wol_SDchla <- inner_join(wol_SD, wol_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))"
+"0",""
+"0","head(bsl_SDchla) #inspect data for Big Spirit Lake"

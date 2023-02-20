@@ -1,0 +1,5 @@
+"0","bsl_P <- filter(bsl, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))"
+"0","eol_P <- filter(eol, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))"
+"0","wol_P <- filter(wol, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))"
+"0",""
+"0","head(bsl_P) #inspect data for Big Spirit Lake"

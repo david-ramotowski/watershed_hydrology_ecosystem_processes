@@ -1,0 +1,5 @@
+"0","bsl_chla <- filter(bsl, grepl('Chlorophyll', analyte))"
+"0","eol_chla <- filter(eol, grepl('Chlorophyll', analyte))"
+"0","wol_chla <- filter(wol, grepl('Chlorophyll', analyte))"
+"0",""
+"0","head(bsl_chla) #inspect data for Big Spirit Lake"

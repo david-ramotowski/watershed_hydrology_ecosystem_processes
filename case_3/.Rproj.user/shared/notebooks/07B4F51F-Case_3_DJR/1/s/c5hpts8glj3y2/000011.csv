@@ -1,0 +1,5 @@
+"0","bsl_bachman <- read.csv(""big-spirit-lake.csv"") %>% extract(""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == ""BACHMAN"") #Big Spirit Lake"
+"0","wol_bachman <- read.csv(""west_okoboji_lake.csv"") %>% extract(""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == ""BACHMAN"") #West Okoboji Lake"
+"0","eol_bachman <- read.csv(""east_okoboji_lake.csv"") %>% extract(""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == ""BACHMAN"") #East Okoboji Lake"
+"0",""
+"0","head(bsl_bachman) #inspect data format for one of the files"

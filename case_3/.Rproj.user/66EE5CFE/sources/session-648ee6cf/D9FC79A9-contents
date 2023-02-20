@@ -1,0 +1,407 @@
+---
+title: 'Case 3: Lake Water Quality Data Analytics'
+author: "David Ramotowski"
+date: "2023-02-19"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+All data was obtained from the Iowa DNR AquIA water quality database and the Cooperative Lakes Area Monitoring Project (CLAMP) database:
+
+* https://programs.iowadnr.gov/aquia/Programs/Lakes
+* http://clamp1909.blogspot.com/
+
+
+Data for the last 20 years in the Iowa Great Lakes (Big Sprit Lake, West Okoboji Lake, East Okoboji Lake) was downloaded from AquIA in csv format:
+
+* **Big Spirit Lake:** ID#22300014
+* **West Okoboji Lake:** ID#22300009
+* **East Okoboji Lake:** ID#22300008
+
+
+# **1.)**
+Classify the trophic state of the lakes based on the last 20 years of data and describe whether the data indicates that the lakes are stable or show signs of change.
+
+* First, load all required R packages (I mainly use the Tidyverse for dealing with large datasets)
+```{r, results='hide'}
+library(tidyverse)
+library(ggplot2)
+```
+
+* Then, I loaded the data for each lake into R:
+```{r}
+bsl <- read.csv("big-spirit-lake.csv") #Big Spirit Lake
+wol <- read.csv("west_okoboji_lake.csv") #West Okoboji Lake
+eol <- read.csv("east_okoboji_lake.csv") #East Okoboji Lake
+
+head(bsl) #inspect data format for one of the files
+```
+
+* I edited the sampleDate column in each dataset to separate out the year and date (mm/dd), I then removed all years before 2002 to only show data for the last 20 years:
+```{r}
+bsl <- extract(bsl, "sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)
+wol <- extract(wol, "sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)
+eol <- extract(eol, "sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)
+
+head(bsl) #Inspect the data for Big Spirit Lake
+```
+
+* I then subset the data for each lake into separate tables for chl-a:
+```{r}
+bsl_chla <- filter(bsl, grepl('Chlorophyll', analyte))
+eol_chla <- filter(eol, grepl('Chlorophyll', analyte))
+wol_chla <- filter(wol, grepl('Chlorophyll', analyte))
+
+head(bsl_chla) #inspect data for Big Spirit Lake
+```
+
+* Calculated average chl-a concentrations in each lake for the past 20 years:
+```{r}
+mean(bsl_chla$result) #Big Spirit Lake
+mean(eol_chla$result) #East Okoboji Lake
+mean(wol_chla$result) #West Okoboji Lake
+```
+Based on the average chlorophyll-a levels in each lake, I would classify the trophic state of each lake as follows (Carlson, 1996):
+
+* Big Spirit Lake: **Mesotrophic**
+* East Okoboji Lake: **Eutrophic**
+* West Okoboji Lake: **Mesotrophic**
+
+* Graphed chlorophyll-a levels over the last 20 years to visualize if lakes are stable or not:
+
+**Big Spirit Lake**
+```{r}
+bsl_chla_plot <- ggplot(bsl_chla, aes(x=as.numeric(Year), y=as.numeric(result))) + stat_summary(fun.y = "mean", geom = "point") + ylab("Chlorophyll a (ug/L)") + xlab("Year") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chlorophyll a in Big Spirit Lake From 2002-2022") + geom_smooth(method=lm) + scale_x_continuous(breaks = seq(2002, 2022, 1))
+
+bsl_chla_plot
+```
+
+* Big Spirit Lake appears to be stable.
+
+**East Okoboji Lake**
+```{r}
+eol_chla_plot <- ggplot(eol_chla, aes(x=as.numeric(Year), y=as.numeric(result))) + stat_summary(fun.y = "mean", geom = "point") + ylab("Chlorophyll a (ug/L)") + xlab("Year") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chlorophyll a in East Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + scale_x_continuous(breaks = seq(2002, 2022, 1))
+
+
+eol_chla_plot
+```
+
+* East Okoboji Lake appears to be showing signs of increasing chl-a over time.
+
+**West Okoboji Lake**
+```{r}
+wol_chla_plot <- ggplot(wol_chla, aes(x=as.numeric(Year), y=as.numeric(result))) + stat_summary(fun.y = "mean", geom = "point") + ylab("Chlorophyll a (ug/L)") + xlab("Year") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chlorophyll a in West Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + scale_x_continuous(breaks = seq(2002, 2022, 1))
+
+
+wol_chla_plot
+```
+
+* West Okoboji Lake appears to be stable.
+
+----------------------------------------------------------------------------
+
+# **2.)**
+Explore possible relationships between nutrients (N and P) and biomass(chl-a).
+
+* Subset the original lake data to create datasets for N and P:
+  + Used total phosphorus for P
+  + Used inorganic nitrogen for N
+**N** (also removed entries with inconsistent units)
+```{r}
+bsl_N <- filter(bsl, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+eol_N <- filter(eol, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+wol_N <- filter(wol, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+
+head(bsl_N) #inspect data for Big Spirit Lake
+```
+
+**P**
+```{r}
+bsl_P <- filter(bsl, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+eol_P <- filter(eol, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+wol_P <- filter(wol, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+
+head(bsl_P) #inspect data for Big Spirit Lake
+```
+
+**also edited chla tables to get them in the same format as the N, P tables**
+```{r}
+bsl_chla_1 <- bsl_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))
+eol_chla_1 <- eol_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))
+wol_chla_1 <- wol_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))
+
+head(bsl_chla_1) #inspect data for Big Spirit Lake
+```
+
+* Create a table for each lake with N, P, chl-a data:
+  + Used an inner join based on dates to create a table with data points containing N, P, and chl-a data for each date
+
+```{r}
+bslNPChla <- inner_join(bsl_P, bsl_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(bsl_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla)) %>% pivot_longer(!Year, names_to = "analyte", values_to = "concentration")
+
+eolNPChla <- inner_join(eol_P, eol_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(eol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla)) %>% pivot_longer(!Year, names_to = "analyte", values_to = "concentration")
+
+wolNPChla <- inner_join(wol_P, wol_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(wol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla)) %>% pivot_longer(!Year, names_to = "analyte", values_to = "concentration")
+
+head(bslNPChla) #inspect data for Big Spirit Lake
+```
+
+* Graph changes in N, P concentration versus chl-a over the past 20 years:
+```{r}
+bslNPChla_plot <- ggplot(bslNPChla, aes(x=Year, y=concentration, group=analyte, color=analyte)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chla (ug/L), N (mg/L), and P (mg/L) in Big Spirit Lake From 2002-2022") 
+
+bslNPChla_plot
+```
+
+```{r}
+eolNPChla_plot <- ggplot(eolNPChla, aes(x=Year, y=concentration, group=analyte, color=analyte)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chla (ug/L), N (mg/L), and P (mg/L) in East Okoboji Lake From 2002-2022") 
+
+eolNPChla_plot
+```
+
+```{r}
+wolNPChla_plot <- ggplot(wolNPChla, aes(x=Year, y=concentration, group=analyte, color=analyte)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Chla (ug/L), N (mg/L), and P (mg/L) in West Okoboji Lake From 2002-2022") 
+
+wolNPChla_plot
+```
+
+* **Looking at all three analytes on the same graph, it appears that N increases during periods of chl-a increase, but it is difficult to visualize a relationship.**
+
+I then plotted N vs chl-a and P vs chl-a to more easily visualize any possible relationships:
+
+* Formatted data to get separate columns for N, P, chl-a:
+```{r}
+bslNPChla_wide <- inner_join(bsl_P, bsl_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(bsl_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))
+
+eolNPChla_wide <- inner_join(eol_P, eol_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(eol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))
+
+wolNPChla_wide <- inner_join(wol_P, wol_N, by = c("Date", "unit", "Year", "name")) %>% inner_join(wol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))
+
+head(bslNPChla_wide)
+```
+
+```{r}
+bslNPChla_plot_2 <- ggplot(bslNPChla_wide, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+bslNPChla_plot_2
+```
+
+```{r}
+eolNPChla_plot_2 <- ggplot(eolNPChla_wide, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+eolNPChla_plot_2
+```
+
+```{r}
+wolNPChla_plot_2 <- ggplot(wolNPChla_wide, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+wolNPChla_plot_2
+```
+
+```{r}
+bslNPChla_plot_3 <- ggplot(bslNPChla_wide, aes(x=N, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("N (mg/L) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + geom_smooth(method=lm) + xlab("N (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+bslNPChla_plot_3
+```
+
+```{r}
+eolNPChla_plot_3 <- ggplot(eolNPChla_wide, aes(x=N, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("N (mg/L) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + xlab("N (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+eolNPChla_plot_3
+```
+
+```{r}
+wolNPChla_plot_3 <- ggplot(wolNPChla_wide, aes(x=N, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("N (mg/L) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + geom_smooth(method=lm) + xlab("N (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+wolNPChla_plot_3
+```
+
+**Overall, the data appears to vary by lake, with Big Spirit Lake showing a positive correlation between P and chl-a concentrations and no noticable correlation between N and chl-a concentrations.  East Okoboji Lake showed a postitive correlation between P and chl-a concentrations and a negative correlation between N and chl-a concentrations while West Okoboji Lake showed a negative correlation between P and chl-a concentrations and a slight positive correlation between N and chl-a concentrations.**
+
+----------------------------------------------------------------------------
+
+# **3.)**
+Compare with Bachman's result.
+
+* For this question, I assume that Bachman's result refers to data collected in the Iowa Great Lakes from 1971 to 1990, which is listed under the Bachman project/task.
+
+* I then re-loaded the data as was done previously and filtered for the Bachman project code:
+```{r}
+bsl_bachman <- read.csv("big-spirit-lake.csv") %>% extract("sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == "BACHMAN") #Big Spirit Lake
+wol_bachman <- read.csv("west_okoboji_lake.csv") %>% extract("sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == "BACHMAN") #West Okoboji Lake
+eol_bachman <- read.csv("east_okoboji_lake.csv") %>% extract("sampleDate", c("Year", "Date"), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(projectCode == "BACHMAN") #East Okoboji Lake
+
+head(bsl_bachman) #inspect data format for one of the files
+```
+
+I then filtered out any analytes that were not Chl-a, N, or P:
+```{r}
+bsl_bachman_chla <- filter(bsl_bachman, grepl('Chlorophyll', analyte)) %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit, analyte))
+eol_bachman_chla <- filter(eol_bachman, grepl('Chlorophyll', analyte)) %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit, analyte))
+wol_bachman_chla <- filter(wol_bachman, grepl('Chlorophyll', analyte)) %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit, analyte))
+
+bsl_bachman_P <- filter(bsl_bachman, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+eol_bachman_P <- filter(eol_bachman, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+wol_bachman_P <- filter(wol_bachman, grepl('Total Phosphorus', analyte)) %>% rename(P = result) %>% select(c(name, Year, Date, P, unit, analyte))
+
+bsl_bachman_N <- filter(bsl_bachman, grepl('Inorganic nitrogen', analyte)) %>% rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+eol_bachman_N <- filter(eol_bachman, grepl('Inorganic nitrogen', analyte)) %>% rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+wol_bachman_N <- filter(wol_bachman, grepl('Inorganic nitrogen', analyte)) %>% rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))
+
+bsl_bachman_NPchla <- left_join(bsl_bachman_P, bsl_bachman_N, by = c("Date", "Year", "name")) %>% left_join(bsl_bachman_chla, by = c("Date", "Year", "name"))
+
+eol_bachman_NPchla <- left_join(eol_bachman_P, bsl_bachman_N, by = c("Date", "Year", "name")) %>% right_join(eol_bachman_chla, by = c("Date", "Year", "name")) %>% drop_na(P)
+
+wol_bachman_NPchla <- full_join(wol_bachman_P, bsl_bachman_N, by = c("Date", "Year", "name")) %>% left_join(wol_bachman_chla, by = c("Date", "Year", "name")) %>% drop_na(chla)
+```
+
+* In this case, I only looked at P vs Chl-a due to a lack of N data:
+```{r}
+bslNPChla_plot_bachman <- ggplot(bsl_bachman_NPchla, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in Big Spirit Lake From Bachman") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+bslNPChla_plot_bachman
+```
+
+```{r}
+eolNPChla_plot_bachman <- ggplot(eol_bachman_NPchla, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in East Okoboji Lake From Bachman") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+eolNPChla_plot_bachman
+```
+
+```{r}
+wolNPChla_plot_bachman <- ggplot(data = wol_bachman_NPchla, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("P (mg/L) vs Chla (ug/L) in West Okoboji Lake From Bachman") + geom_smooth(method=lm) + xlab("P (mg/L)") + ylab("Chlorophyll a (ug/L)")
+
+wolNPChla_plot_bachman
+```
+
+**Bachman's result indicates that P is negatively correlated with chlorophyll a in Big Spirit Lake and positively correlated in East and West Okoboji Lakes.  For Big Sprit Lake, the trend in P vs. Chl-a was opposite that of the last 20 years while for East and West Okoboji Lakes, the trends were relatively consistent.**
+
+..........................................................................................................
+
+# **4.)**
+Explore if there is a relationship betwen CHl-a and SD (Secchi Depth)?  Consider statistical metrics to evaluate how well a relationship describes the data.
+
+* For this question, I took the Secchi Depth data from AquIA and joined it with the previously obtained Chl-a data for the past 20 years:
+
+```{r}
+bsl_SD <- filter(bsl, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))
+
+eol_SD <- filter(eol, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))
+
+wol_SD <- filter(wol, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))
+```
+
+```{r}
+bsl_SDchla <- inner_join(bsl_SD, bsl_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))
+
+eol_SDchla <- inner_join(eol_SD, eol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))
+
+wol_SDchla <- inner_join(wol_SD, wol_chla_1, by = c("Date", "Year", "name")) %>% group_by(Year) %>% summarise(SD = mean(SD), chla = mean(chla))
+
+head(bsl_SDchla) #inspect data for Big Spirit Lake
+```
+
+* Graphed SD vs Chlorophyll a in each of the Iowa Great Lakes:
+```{r}
+bsl_SDchla_plot <- ggplot(bsl_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Secchi Depth (m) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + xlab("Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)")
+
+bsl_SDchla_plot
+```
+```{r}
+eol_SDchla_plot <- ggplot(eol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Secchi Depth (m) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + xlab("Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)")
+
+eol_SDchla_plot
+```
+
+```{r}
+wol_SDchla_plot <- ggplot(wol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + xlab("Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)")
+
+wol_SDchla_plot
+```
+
+**It appears that Secchi Depth is inversely correlated to Chl-a i.e, a lower Secchi Depth is expected when given higher chl-a concnetrations.**
+
+
+* Semi-log and log-log plots for each lake:
+```{r}
+bsl_SDchla_plot_semi <- ggplot(bsl_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Semi-log Plot of Secchi Depth (m) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)") + scale_x_log10()
+
+bsl_SDchla_plot_semi
+```
+```{r}
+bsl_SDchla_plot_log <- ggplot(bsl_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("log-log Plot of Secchi Depth (m) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)") + scale_x_log10() + scale_y_log10()
+
+bsl_SDchla_plot_log
+```
+
+```{r}
+eol_SDchla_plot_semi <- ggplot(eol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Semi-log Plot of Secchi Depth (m) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)") + scale_x_log10()
+
+eol_SDchla_plot_semi
+```
+
+```{r}
+eol_SDchla_plot_log <- ggplot(eol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("log-log Plot of Secchi Depth (m) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)") + scale_x_log10() + scale_y_log10()
+
+eol_SDchla_plot_log
+```
+
+
+
+```{r}
+wol_SDchla_plot_semi <- ggplot(wol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Semi-log Plot of Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("Chlorophyll a (ug/L)") + scale_x_log10()
+
+wol_SDchla_plot_semi
+```
+
+```{r}
+wol_SDchla_plot_log <- ggplot(wol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("log-log Plot of Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)") + scale_x_log10() + scale_y_log10()
+
+wol_SDchla_plot_log
+```
+
+**It is difficult to determine if there is a relationship between Chl-a and Secchi Depth, but I think I will try a Power Law fit for each lake:**
+
+* First, I defined the power law function and plotted a log-log plot for Big Spirit Lake:
+```{r}
+x <- bsl_SDchla$SD
+pwr <- function(x)x^-0.1
+dat <- data.frame(x, y = pwr(x))
+
+bsl_pwr <- ggplot(dat, aes(x = x, y = bsl_SDchla$chla)) + 
+  geom_point() + stat_function(fun = pwr) + scale_x_log10() + scale_y_log10() + ggtitle("Power Law Curve of Secchi Depth (m) vs Chla (ug/L) in Big Spirit Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)")
+
+bsl_pwr
+```
+
+* East Okoboji Lake:
+```{r}
+x <- eol_SDchla$SD
+pwr <- function(x)x^-5.5
+dat <- data.frame(x, y = pwr(x))
+
+eol_pwr <- ggplot(dat, aes(x = x, y = eol_SDchla$chla)) + 
+  geom_point() + stat_function(fun = pwr) + scale_x_log10() + scale_y_log10() + ggtitle("Power Law Curve of Secchi Depth (m) vs Chla (ug/L) in East Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)")
+
+eol_pwr
+```
+
+* West Okoboji Lake:
+```{r}
+x <- wol_SDchla$SD
+pwr <- function(x)x^0.5
+dat <- data.frame(x, y = pwr(x))
+
+wol_pwr <- ggplot(dat, aes(x = x, y = wol_SDchla$chla)) + 
+  geom_point() + stat_function(fun = pwr) + scale_x_log10() + scale_y_log10() + ggtitle("Power Law Curve of Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022") + xlab("log Secchi Depth (m)") + ylab("log Chlorophyll a (ug/L)")
+
+wol_pwr
+```
+
+**The Power Law relationship appears to describe the Chl-a/SD relationship well on a log-log scale.  I wasn't able to get the trendlines to fit perfectly, but the data for Big Spirit and East Okoboji Lakes looks pretty linear while West Okoboji Lake seems to fit the model well.**
+

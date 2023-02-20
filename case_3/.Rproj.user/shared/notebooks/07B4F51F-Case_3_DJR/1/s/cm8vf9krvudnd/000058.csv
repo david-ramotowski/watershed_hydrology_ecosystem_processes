@@ -1,0 +1,3 @@
+"0","bslNPChla_plot <- ggplot(bslNPChla, aes(x=Year, y=concentration, group=analyte, color=analyte)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle(""Chla (ug/L), N (mg/L), and P (mg/L) in Big Spirit Lake From 2002-2022"") "
+"0",""
+"0","bslNPChla_plot"

@@ -1,0 +1,7 @@
+"0","bslNPChla_wide <- inner_join(bsl_P, bsl_N, by = c(""Date"", ""unit"", ""Year"", ""name"")) %>% inner_join(bsl_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))"
+"0",""
+"0","eolNPChla_wide <- inner_join(eol_P, eol_N, by = c(""Date"", ""unit"", ""Year"", ""name"")) %>% inner_join(eol_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))"
+"0",""
+"0","wolNPChla_wide <- inner_join(wol_P, wol_N, by = c(""Date"", ""unit"", ""Year"", ""name"")) %>% inner_join(wol_chla_1, by = c(""Date"", ""Year"", ""name"")) %>% group_by(Year) %>% summarise(P = mean(P), N = mean(N), chla = mean(chla))"
+"0",""
+"0","head(bslNPChla_wide)"
