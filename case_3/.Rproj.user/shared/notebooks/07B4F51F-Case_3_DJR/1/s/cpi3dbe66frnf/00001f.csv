@@ -1,0 +1,5 @@
+"0","bsl_chla_1 <- bsl_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))"
+"0","eol_chla_1 <- eol_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))"
+"0","wol_chla_1 <- wol_chla %>% rename(chla = result) %>% select(c(name, Year, Date, chla, unit))"
+"0",""
+"0","head(bsl_chla_1) #inspect data for Big Spirit Lake"

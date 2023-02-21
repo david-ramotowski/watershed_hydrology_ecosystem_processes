@@ -1,0 +1,5 @@
+"0","bsl_N <- filter(bsl, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))"
+"0","eol_N <- filter(eol, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))"
+"0","wol_N <- filter(wol, grepl('Inorganic nitrogen', analyte)) %>% filter(grepl('mg/l', unit)) %>%  rename(N = result) %>% select(c(name, Year, Date, N, unit, analyte))"
+"0",""
+"0","head(bsl_N) #inspect data for Big Spirit Lake"

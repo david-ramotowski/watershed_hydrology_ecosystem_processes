@@ -1,0 +1,4 @@
+"0","eol_chla_plot <- ggplot(eol_chla, aes(x=as.numeric(Year), y=as.numeric(result))) + stat_summary(fun.y = ""mean"", geom = ""point"") + ylab(""Chlorophyll a (ug/L)"") + xlab(""Year"") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle(""Chlorophyll a in East Okoboji Lake From 2002-2022"") + geom_smooth(method=lm) + scale_x_continuous(breaks = seq(2002, 2022, 1))"
+"0",""
+"0",""
+"0","eol_chla_plot"

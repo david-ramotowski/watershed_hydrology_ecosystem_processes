@@ -1,0 +1,5 @@
+"0","bsl <- extract(bsl, ""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)"
+"0","wol <- extract(wol, ""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)"
+"0","eol <- extract(eol, ""sampleDate"", c(""Year"", ""Date""), regex = '(^[0-9]{4})\\D(.{5})') %>% filter(Year>2001)"
+"0",""
+"0","head(bsl) #Inspect the data for Big Spirit Lake"

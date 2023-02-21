@@ -1,0 +1,5 @@
+"0","bsl <- read.csv(""big-spirit-lake.csv"") #Big Spirit Lake"
+"0","wol <- read.csv(""west_okoboji_lake.csv"") #West Okoboji Lake"
+"0","eol <- read.csv(""east_okoboji_lake.csv"") #East Okoboji Lake"
+"0",""
+"0","head(bsl) #inspect data format for one of the files"

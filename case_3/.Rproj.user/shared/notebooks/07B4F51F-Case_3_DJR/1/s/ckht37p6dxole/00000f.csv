@@ -1,0 +1,3 @@
+"0","wol_SDchla_plot <- ggplot(wol_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle(""Secchi Depth (m) vs Chla (ug/L) in West Okoboji Lake From 2002-2022"") + xlab(""Secchi Depth (m)"") + ylab(""Chlorophyll a (ug/L)"")"
+"0",""
+"0","wol_SDchla_plot"

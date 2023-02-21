@@ -1,0 +1,3 @@
+"0","bsl_SDchla_plot_log <- ggplot(bsl_SDchla, aes(x=SD, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle(""log-log Plot of Secchi Depth (m) vs Chla (ug/L) in Big Spirit Lake From 2002-2022"") + xlab(""Secchi Depth (m)"") + ylab(""Chlorophyll a (ug/L)"") + scale_x_log10() + scale_y_log10()"
+"0",""
+"0","bsl_SDchla_plot_log"

@@ -1,0 +1,3 @@
+"0","bslNPChla_plot_2 <- ggplot(bslNPChla_wide, aes(x=P, y=chla)) + geom_point() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle(""P (mg/L) vs Chla (ug/L) in Big Spirit Lake From 2002-2022"") + geom_smooth(method=lm) + xlab(""P (mg/L)"") + ylab(""Chlorophyll a (ug/L)"")"
+"0",""
+"0","bslNPChla_plot_2"

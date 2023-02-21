@@ -1,0 +1,5 @@
+"0","bsl_SD <- filter(bsl, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))"
+"0",""
+"0","eol_SD <- filter(eol, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))"
+"0",""
+"0","wol_SD <- filter(wol, grepl('Secchi', analyte)) %>% rename(SD = result) %>% select(c(name, Year, Date, SD, unit, analyte))"
